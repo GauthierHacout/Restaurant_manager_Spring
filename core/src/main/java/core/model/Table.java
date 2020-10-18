@@ -13,11 +13,13 @@ public class Table {
 
     private int number;
 
+    private int numberOfCustomers;
+
     @ManyToOne
     private Restaurant restaurant;
 
     @OneToMany
-    private List<Order> commands;
+    private List<Order> orders;
 
     public long getId() {
         return id;
@@ -35,7 +37,11 @@ public class Table {
         return restaurant;
     }
 
-    public List<Order> getCommands() {
-        return commands;
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public int getNumberOfCustomers() {
+        return numberOfCustomers;
     }
 }
