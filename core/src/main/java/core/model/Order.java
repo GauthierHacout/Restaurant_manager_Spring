@@ -4,11 +4,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class Order {
-
-    @Id
-    @GeneratedValue( strategy = GenerationType.AUTO)
-    private long id;
+public class Order extends GenericEntity{
 
     private boolean payed;
 
@@ -17,10 +13,6 @@ public class Order {
 
     @OneToMany
     private List<Product> products;
-
-    public long getId() {
-        return id;
-    }
 
     public boolean isPayed() {
         return payed;

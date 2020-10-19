@@ -1,9 +1,10 @@
 package core.service;
 
 import core.repository.RestaurantRepository;
+import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 
-@org.springframework.stereotype.Service
+@Service
 @Transactional
-public class RestaurantService extends Service<RestaurantRepository>{
+public class RestaurantService extends GenericService<RestaurantRepository>{
 }

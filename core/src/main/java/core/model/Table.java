@@ -4,26 +4,19 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class Table {
-    @Id
-    @GeneratedValue( strategy = GenerationType.AUTO)
-    private long id;
+public class Table extends GenericEntity{
 
     private boolean occupied;
 
     private int number;
 
-    private int numberOfCustomers;
+    private int numberOfSeats;
 
     @ManyToOne
     private Restaurant restaurant;
 
     @OneToMany
     private List<Order> orders;
-
-    public long getId() {
-        return id;
-    }
 
     public boolean isOccupied() {
         return occupied;
@@ -41,7 +34,7 @@ public class Table {
         return orders;
     }
 
-    public int getNumberOfCustomers() {
-        return numberOfCustomers;
+    public int getNumberOfSeats() {
+        return numberOfSeats;
     }
 }

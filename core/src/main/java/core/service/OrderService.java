@@ -1,11 +1,13 @@
 package core.service;
 
 import core.repository.OrderRepository;
+import org.springframework.stereotype.Service;
+
 import javax.transaction.Transactional;
 
-@org.springframework.stereotype.Service
+@Service
 @Transactional
-public class OrderService extends Service<OrderRepository> {
+public class OrderService extends GenericService<OrderRepository> {
 
 }
 

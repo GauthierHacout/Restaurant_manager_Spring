@@ -3,11 +3,7 @@ package core.model;
 import javax.persistence.*;
 
 @Entity
-public class Product {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+public class Product extends GenericEntity{
 
     private String name;
 
@@ -17,10 +13,6 @@ public class Product {
 
     @ManyToOne
     private Order order;
-
-    public long getId() {
-        return id;
-    }
 
     public String getName() {
         return name;
