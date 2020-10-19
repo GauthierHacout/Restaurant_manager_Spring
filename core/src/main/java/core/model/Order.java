@@ -1,9 +1,9 @@
 package core.model;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
+@javax.persistence.Table(name= "table_order")
 public class Order extends GenericEntity{
 
     private boolean payed;
@@ -11,8 +11,8 @@ public class Order extends GenericEntity{
     @ManyToOne
     private Table table;
 
-    @OneToMany
-    private List<Product> products;
+    public Order() {
+    }
 
     public boolean isPayed() {
         return payed;
@@ -20,9 +20,5 @@ public class Order extends GenericEntity{
 
     public Table getTable() {
         return table;
-    }
-
-    public List<Product> getProducts() {
-        return products;
     }
 }

@@ -8,11 +8,18 @@ public class Restaurant extends GenericEntity{
 
     private String name;
 
-    @OneToMany
+    @OneToMany(mappedBy = "restaurant")
     private List<Table> tables;
+
+    public Restaurant() {
+    }
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<Table> getTables() {
