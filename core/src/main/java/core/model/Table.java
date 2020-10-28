@@ -17,9 +17,6 @@ public class Table extends GenericEntity{
     @ManyToOne
     private Restaurant restaurant;
 
-    @OneToMany(mappedBy = "table")
-    private List<Order> orders;
-
     public Table() {
     }
 
@@ -45,10 +42,6 @@ public class Table extends GenericEntity{
 
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
-    }
-
-    public List<Order> getOrders() {
-        return orders;
     }
 
     public int getNumberOfSeats() {

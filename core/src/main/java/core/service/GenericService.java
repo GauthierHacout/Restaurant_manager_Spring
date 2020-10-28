@@ -9,18 +9,18 @@ import java.util.List;
 public abstract class GenericService<S extends GenericEntity> {
 
     @Autowired
-    private GenericRepository<S> dao;
+    private GenericRepository<S> repository;
 
     public List<S> findAll() {
-        return dao.findAll();
+        return repository.findAll();
     }
 
-    public S create(S s) {
-        return dao.save(s);
+    public S save(S s) {
+        return repository.save(s);
     }
 
     public void deleteAll() {
-        dao.deleteAll();
+        repository.deleteAll();
     }
 
 }

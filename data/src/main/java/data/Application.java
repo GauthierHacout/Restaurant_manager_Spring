@@ -42,7 +42,7 @@ public class Application {
         System.out.println("Creating Restaurant : "+name);
         Restaurant restaurant = new Restaurant();
         restaurant.setName(name);
-        restaurantService.create(restaurant);
+        restaurantService.save(restaurant);
         return restaurant;
     }
 
@@ -64,7 +64,7 @@ public class Application {
         table.setNumberOfSeats(numberOfSeats);
         table.setOccupied(false);
         table.setRestaurant(restaurant);
-        tableService.create(table);
+        tableService.save(table);
         return table;
     }
 
@@ -83,7 +83,6 @@ public class Application {
         product.setPrice(price);
         product.setProductType(type);
         product.setRestaurant(restaurant);
-        productService.create(product);
+        productService.save(product);
     }
-
 }
