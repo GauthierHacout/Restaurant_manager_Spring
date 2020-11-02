@@ -1,15 +1,26 @@
 package core.service;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import core.model.GenericEntity;
+import core.repository.GenericRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-public abstract class GenericService<T extends JpaRepository> {
+public abstract class GenericService<S extends GenericEntity> {
 
-    private T t;
+    @Autowired
+    private GenericRepository<S> repository;
 
-    public List findAll() {
-        return t.findAll();
+    public List<S> findAll() {
+        return repository.findAll();
+    }
+
+    public S save(S s) {
+        return repository.save(s);
+    }
+
+    public void deleteAll() {
+        repository.deleteAll();
     }
 
 }
