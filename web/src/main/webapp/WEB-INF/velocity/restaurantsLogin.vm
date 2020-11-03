@@ -26,7 +26,7 @@
         <form class="w-75 mx-auto" action="restaurant" id="loginRestaurant" method="POST">
             <div class="form-group">
                 <label for="name">Name</label>
-                #springFormInput("company.name" "class='form-control' id='name'")
+                #springFormInput("restaurant.name" "class='form-control' id='name'")
             </div>
 
             <div class="d-flex justify-content-center">

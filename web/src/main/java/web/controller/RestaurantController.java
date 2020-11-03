@@ -18,6 +18,7 @@ public class RestaurantController {
 
     @GetMapping()
     public String getLogin(ModelMap model, @RequestParam(value="error", defaultValue= "false", required=false) Boolean error) {
+        model.addAttribute("restaurant", new Restaurant());
         if (error) {
             model.addAttribute("error", "There is no restaurant with this name");
         }
