@@ -5,6 +5,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import core.model.Restaurant;
 import core.service.RestaurantService;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/restaurant")
@@ -26,14 +27,15 @@ public class RestaurantController {
     }
 
     @PostMapping()
-    public String checkLogin(@ModelAttribute("restaurant") Restaurant restaurant) {
-        System.out.println("RESTAURANT : "+ restaurant);
-        System.out.println(restaurant.getName());
-        Restaurant test = restaurantService.findByName(restaurant.getName());
-        System.out.println("Restaurant  : "+test);
-        if (test == null) {
+    public String checkLogin(@ModelAttribute("restaurant") Restaurant r,
+                             RedirectAttributes redirectAttributes) {
+
+        Restaurant restaurant = restaurantService.findByName(r.getName());
+        if (restaurant == null) {
             return "redirect:/restaurant?error=true";
         }
-        return "redirect:/restaurant";
+
+        redirectAttributes.addAttribute("id", restaurant.getId());
+        return "redirect:/restaurant/{id}/tables";
     }
 }
