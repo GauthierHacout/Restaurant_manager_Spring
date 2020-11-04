@@ -1,3 +1,4 @@
 target/
 .idea/
 *.iml
+core/src/main/resources/db.properties
