@@ -2,7 +2,7 @@ package web.controller;
 
 import core.model.Table;
 import core.service.TableService;
-import core.service.implementation.StartTableService;
+import core.service.implementation.TableOrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,11 +16,11 @@ public class TableController {
 
     private final TableService tableService;
 
-    private final StartTableService startTableService;
+    private final TableOrderService tableOrderService;
 
-    public TableController(TableService tableService, StartTableService startTableService) {
+    public TableController(TableService tableService, TableOrderService tableOrderService) {
         this.tableService = tableService;
-        this.startTableService = startTableService;
+        this.tableOrderService = tableOrderService;
     }
 
     @GetMapping("table/{id}/start")
@@ -30,7 +30,7 @@ public class TableController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find table");
         }
 
-        startTableService.call(table);
+        tableOrderService.instanciateOrderFor(table);
         redirectAttributes.addAttribute("id", table.getRestaurant().getId());
         return "redirect:/restaurant/{id}/tables";
     }
