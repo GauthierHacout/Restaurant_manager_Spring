@@ -1,10 +1,8 @@
 package data;
 
 
-import core.model.Product;
-import core.model.ProductType;
-import core.model.Restaurant;
-import core.model.Table;
+import core.model.*;
+import core.service.OrderService;
 import core.service.ProductService;
 import core.service.RestaurantService;
 import core.service.TableService;
@@ -19,16 +17,20 @@ public class Application {
         final ProductService productService = context.getBean(ProductService.class);
         final RestaurantService restaurantService = context.getBean(RestaurantService.class);
         final TableService tableService = context.getBean(TableService.class);
-        cleanDB(restaurantService, tableService, productService);
+        final OrderService orderService = context.getBean(OrderService.class);
+        cleanDB(restaurantService, tableService, productService, orderService);
         final Map<String, Restaurant> restaurants = registerRestaurants(restaurantService);
         final Map<Integer, Table> tables = registerTables(restaurants, tableService);
+        registerOrders(tables, orderService);
         registerProduct(restaurants, productService);
     }
 
-    private static void cleanDB(final RestaurantService restaurantService, final TableService tableService, final ProductService productService) {
+    private static void cleanDB(final RestaurantService restaurantService, final TableService tableService,
+                                final ProductService productService, final OrderService orderService) {
         restaurantService.deleteAll();
         tableService.deleteAll();
         productService.deleteAll();
+        orderService.deleteAll();
     }
 
     private static Map<String, Restaurant> registerRestaurants(final RestaurantService restaurantService) {
@@ -66,6 +68,23 @@ public class Application {
         table.setRestaurant(restaurant);
         tableService.save(table);
         return table;
+    }
+
+    private static Map<Integer, Order> registerOrders(Map<Integer, Table> tables, final OrderService orderService) {
+        Map<Integer, Order> orders = new HashMap<Integer, Order>();
+        orders.put(1, createOrder(tables.get(1), orderService));
+        orders.put(2, createOrder(tables.get(3), orderService));
+        return orders;
+    }
+
+
+    private static Order createOrder(final Table table, final OrderService orderService) {
+        System.out.println("Creating Order in Table : "+table.getId());
+        Order order = new Order();
+        order.setActive(false);
+        order.setTable(table);
+        orderService.save(order);
+        return order;
     }
 
     private static void registerProduct(Map<String, Restaurant> restaurants, final ProductService productService) {
