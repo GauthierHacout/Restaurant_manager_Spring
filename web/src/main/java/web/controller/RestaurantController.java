@@ -1,5 +1,7 @@
 package web.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -16,6 +18,8 @@ import java.util.Optional;
 public class RestaurantController {
 
     private final RestaurantService restaurantService;
+
+    private static final Logger logger = LoggerFactory.getLogger(RestaurantController.class);
 
     public RestaurantController(RestaurantService restaurantService) {
         this.restaurantService = restaurantService;
@@ -37,6 +41,7 @@ public class RestaurantController {
             return "redirect:/restaurant?error=true";
         }
 
+        logger.info("New connection to restaurant with name : {}", restaurant.getName());
         redirectAttributes.addAttribute("id", restaurant.getId());
         return "redirect:/restaurant/{id}/tables";
     }
