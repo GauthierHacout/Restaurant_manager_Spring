@@ -8,7 +8,7 @@ public class Restaurant extends GenericEntity{
 
     private String name;
 
-    @OneToMany(mappedBy = "restaurant")
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.EAGER)
     private List<Table> tables;
 
     public Restaurant() {

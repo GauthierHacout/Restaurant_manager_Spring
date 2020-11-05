@@ -7,6 +7,8 @@ import core.model.Restaurant;
 import core.service.RestaurantService;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Optional;
+
 @Controller
 @RequestMapping("/restaurant")
 public class RestaurantController {
@@ -37,5 +39,12 @@ public class RestaurantController {
 
         redirectAttributes.addAttribute("id", restaurant.getId());
         return "redirect:/restaurant/{id}/tables";
+    }
+
+    @GetMapping("/{id}/tables")
+    public String getTables(@PathVariable("id") long id, ModelMap model){
+        Optional<Restaurant> restaurant = restaurantService.find(id);
+        model.put("restaurant", restaurant.get());
+        return "restaurantTablesIndex";
     }
 }

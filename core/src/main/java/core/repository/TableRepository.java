@@ -6,5 +6,4 @@ import java.util.List;
 
 public interface TableRepository extends GenericRepository<Table> {
 
-    List<Table> findByRestaurantId(Long Id);
 }
