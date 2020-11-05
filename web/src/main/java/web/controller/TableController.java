@@ -1,10 +1,12 @@
 package web.controller;
 
+import core.model.Table;
 import core.service.TableService;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import java.util.Optional;
 
 @Controller
 public class TableController {
@@ -15,9 +17,14 @@ public class TableController {
         this.tableService = tableService;
     }
 
-    @GetMapping("/restaurant/{id}/tables")
-    public String getTablesFromRestaurant(@PathVariable("id") long id, ModelMap model){
-        model.put("tables", tableService.findByRestaurantId(id));
-        return "tablesIndex";
+    @GetMapping("table/{id}/start")
+    public String startTableService(@PathVariable("id") long id,  RedirectAttributes redirectAttributes) {
+        Optional<Table> table = tableService.find(id);
+
+        table.get().setOccupied(true);
+        tableService.save(table.get());
+
+        redirectAttributes.addAttribute("id", table.get().getRestaurant().getId());
+        return "redirect:/restaurant/{id}/tables";
     }
 }

@@ -8,6 +8,7 @@
     <title>Project</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
     <style>
         body {
@@ -24,11 +25,11 @@
 
     <div class="jumbotron">
         <h1>Table management</h1>
-
+        <h3>$restaurant.name</h3>
     </div>
 
     <div class="row">
-        #foreach($table in $tables)
+        #foreach($table in $restaurant.tables)
             <div class="col-sm-3">
                 <div class="card mb-3 #if($table.occupied)border-warning#{else}border-success#end">
                     <h5 class="card-header">Table #$table.number</h5>
@@ -36,10 +37,15 @@
                         <p class="card-title">This table has a capacity for $table.numberOfSeats persons</p>
                         #if($table.occupied)
                             <p class="card-text text-warning">This table is occupied</p>
+                            <a href="" class="btn btn-warning">
+                                <i class="fas fa-eye"></i>
+                            </a>
                         #else
                             <p class="card-text text-success">This table is not occupied</p>
+                            <a href="../../table/$table.id/start" class="btn btn-success">
+                                <i class="fas fa-lock-open"></i>
+                            </a>
                         #end
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
                     </div>
                 </div>
             </div>

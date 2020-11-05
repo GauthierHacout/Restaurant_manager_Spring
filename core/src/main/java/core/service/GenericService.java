@@ -5,6 +5,7 @@ import core.repository.GenericRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Optional;
 
 public abstract class GenericService<S extends GenericEntity> {
 
@@ -21,6 +22,10 @@ public abstract class GenericService<S extends GenericEntity> {
 
     public void deleteAll() {
         repository.deleteAll();
+    }
+
+    public Optional<S> find(Long id) {
+        return repository.findById(id);
     }
 
 }

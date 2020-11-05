@@ -15,8 +15,4 @@ public class TableService extends GenericService<Table> {
     public TableService(TableRepository tableRepository) {
         this.tableRepository = tableRepository;
     }
-
-    public List<Table> findByRestaurantId(Long id) {
-        return tableRepository.findByRestaurantId(id);
-    }
 }
