@@ -33,7 +33,7 @@ public class TableController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find table");
         }
 
-        logger.info("Table with id : {} has a new customers", table.getId());
+        logger.info("Table with id : {} has new customers", table.getId());
         tableOrderService.instanciateOrderFor(table);
         redirectAttributes.addAttribute("id", table.getRestaurant().getId());
         return "redirect:/restaurant/{id}/tables";

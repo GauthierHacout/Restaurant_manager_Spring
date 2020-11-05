@@ -1,4 +1,4 @@
-##Restaurant Project
+## Restaurant Project
 
 This project is a restaurant management webapp, it will allow you to manage the tables & orders of the customers in your restaurant.
 
