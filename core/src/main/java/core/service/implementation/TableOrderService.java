@@ -9,20 +9,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class StartTableService {
+public class TableOrderService {
 
     private final TableService tableService;
     private final OrderService orderService;
 
-    public StartTableService(TableService tableService, OrderService orderService) {
+    public TableOrderService(TableService tableService, OrderService orderService) {
         this.tableService = tableService;
         this.orderService = orderService;
     }
 
-    public void call(Table table) {
+    public void instanciateOrderFor(Table table) {
         createOrderFor(table);
         table.setOccupied(true);
-
         tableService.save(table);
     }
 
@@ -30,7 +29,6 @@ public class StartTableService {
         Order newOrder = new Order();
         newOrder.setActive(true);
         newOrder.setTable(table);
-
         orderService.save(newOrder);
     }
 }
