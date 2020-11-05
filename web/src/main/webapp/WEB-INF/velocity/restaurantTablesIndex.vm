@@ -37,7 +37,7 @@
                         <p class="card-title">This table has a capacity for $table.numberOfSeats persons</p>
                         #if($table.occupied)
                             <p class="card-text text-warning">This table is occupied</p>
-                            <a href="" class="btn btn-warning">
+                            <a href="../../table/$table.id" class="btn btn-warning">
                                 <i class="fas fa-eye"></i>
                             </a>
                         #else

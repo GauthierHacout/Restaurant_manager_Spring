@@ -25,7 +25,7 @@ public class RestaurantController {
         if (error) {
             model.addAttribute("error", "There is no restaurant with this name");
         }
-        return "restaurantsLogin";
+        return "restaurantLogin";
     }
 
     @PostMapping()

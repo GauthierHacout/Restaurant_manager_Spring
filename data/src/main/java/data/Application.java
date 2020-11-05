@@ -27,10 +27,10 @@ public class Application {
 
     private static void cleanDB(final RestaurantService restaurantService, final TableService tableService,
                                 final ProductService productService, final OrderService orderService) {
-        restaurantService.deleteAll();
+        orderService.deleteAll();
         tableService.deleteAll();
         productService.deleteAll();
-        orderService.deleteAll();
+        restaurantService.deleteAll();
     }
 
     private static Map<String, Restaurant> registerRestaurants(final RestaurantService restaurantService) {
