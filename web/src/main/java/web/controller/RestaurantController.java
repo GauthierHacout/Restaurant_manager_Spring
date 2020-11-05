@@ -1,10 +1,12 @@
 package web.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import core.model.Restaurant;
 import core.service.RestaurantService;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Optional;
@@ -13,7 +15,7 @@ import java.util.Optional;
 @RequestMapping("/restaurant")
 public class RestaurantController {
 
-    private RestaurantService restaurantService;
+    private final RestaurantService restaurantService;
 
     public RestaurantController(RestaurantService restaurantService) {
         this.restaurantService = restaurantService;
@@ -29,9 +31,7 @@ public class RestaurantController {
     }
 
     @PostMapping()
-    public String checkLogin(@ModelAttribute("restaurant") Restaurant r,
-                             RedirectAttributes redirectAttributes) {
-
+    public String checkLogin(@ModelAttribute("restaurant") Restaurant r, RedirectAttributes redirectAttributes) {
         Restaurant restaurant = restaurantService.findByName(r.getName());
         if (restaurant == null) {
             return "redirect:/restaurant?error=true";
@@ -43,8 +43,12 @@ public class RestaurantController {
 
     @GetMapping("/{id}/tables")
     public String getTables(@PathVariable("id") long id, ModelMap model){
-        Optional<Restaurant> restaurant = restaurantService.find(id);
-        model.put("restaurant", restaurant.get());
+        Restaurant restaurant = restaurantService.findById(id).orElse(null);
+        if (restaurant==null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find Restaurant");
+        }
+
+        model.put("restaurant", restaurant);
         return "restaurantTablesIndex";
     }
 }

@@ -24,7 +24,7 @@ public abstract class GenericService<S extends GenericEntity> {
         repository.deleteAll();
     }
 
-    public Optional<S> find(Long id) {
+    public Optional<S> findById(Long id) {
         return repository.findById(id);
     }
 
