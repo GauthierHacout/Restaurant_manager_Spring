@@ -1,4 +1,4 @@
-package core.service.management;
+package core.service.implementation;
 
 import core.model.Order;
 import core.model.Table;
@@ -11,8 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class StartTableService {
 
-    private TableService tableService;
-    private OrderService orderService;
+    private final TableService tableService;
+    private final OrderService orderService;
 
     public StartTableService(TableService tableService, OrderService orderService) {
         this.tableService = tableService;
