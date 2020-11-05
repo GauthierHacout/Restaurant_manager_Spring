@@ -1,5 +1,7 @@
 package core.model;
 
+import org.hibernate.annotations.Where;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -17,7 +19,8 @@ public class Table extends GenericEntity{
     @ManyToOne
     private Restaurant restaurant;
 
-    @OneToMany(mappedBy = "table")
+    @OneToMany(mappedBy = "table", fetch = FetchType.EAGER)
+    @Where(clause = "active = true")
     private List<Order> orders;
 
     public Table() {

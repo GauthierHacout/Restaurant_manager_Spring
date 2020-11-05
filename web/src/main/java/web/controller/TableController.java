@@ -4,6 +4,7 @@ import core.model.Table;
 import core.service.TableService;
 import core.service.management.StartTableService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -28,5 +29,16 @@ public class TableController {
 
         redirectAttributes.addAttribute("id", table.getRestaurant().getId());
         return "redirect:/restaurant/{id}/tables";
+    }
+
+    @GetMapping("table/{id}")
+    public String showTable(@PathVariable("id") long id, ModelMap model) {
+        Table table = tableService.find(id).get();
+
+
+
+        model.put("table", table);
+
+        return "tableShow";
     }
 }

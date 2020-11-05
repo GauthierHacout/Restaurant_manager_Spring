@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Project</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+    <style>
+        body {
+            padding-top: 50px;
+        }
+    </style>
+
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="jumbotron">
+        <h1>Table management</h1>
+        <h3>Table #$table.number</h3>
+    </div>
+
+    <div class="row">
+        #foreach($order in $table.orders)
+            <div class="col-sm-12">
+                <div>
+                    <h5 class="card-header">Order #$order.id</h5>
+                    <div class="card-body">
+                        <p class="card-title"> blabla  </p>
+                        <p class="card-text"> blabla </p>
+                    </div>
+                </div>
+            </div>
+        #end
+    </div>
+</div>
+
+
+</body>
+</html>
