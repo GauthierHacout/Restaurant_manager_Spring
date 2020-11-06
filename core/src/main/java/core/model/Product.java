@@ -15,7 +15,7 @@ public class Product extends GenericEntity{
     @Enumerated(EnumType.STRING)
     private ProductType productType;
 
-    @ManyToOne(fetch= FetchType.LAZY)
+    @ManyToOne
     private Restaurant restaurant;
 
     public Product() {

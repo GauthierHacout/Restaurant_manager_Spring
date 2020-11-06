@@ -9,7 +9,7 @@ public class Order extends GenericEntity{
 
     private boolean active;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Table table;
 
     @OneToMany(mappedBy = "order")
@@ -18,8 +18,9 @@ public class Order extends GenericEntity{
     public Order() {
     }
 
-    public Order(boolean active) {
+    public Order(boolean active, Table table) {
         this.active = active;
+        this.table = table;
     }
 
     public void setActive(boolean active) {

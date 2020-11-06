@@ -32,8 +32,9 @@ public class TableController {
         }
 
         logger.info("Table with id : {} has new customers", table.getId());
+        table = tableService.findByIdWithOrders(id);
         tableService.saveWithNewActiveOrder(table);
-        redirectAttributes.addAttribute("id", id);
+        redirectAttributes.addAttribute("id", table.getRestaurant().getId());
         return "redirect:/restaurant/{id}/tables";
     }
 

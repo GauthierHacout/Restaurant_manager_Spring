@@ -16,17 +16,17 @@ public class Table extends GenericEntity{
     @Column(name = "number_of_seats")
     private int numberOfSeats;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Restaurant restaurant;
 
-    @OneToMany(mappedBy = "table")
+    @OneToMany(mappedBy = "table", cascade = CascadeType.ALL)
     private List<Order> orders;
 
     public Table() {
     }
 
     public void addEmptyActiveOrder() {
-        this.orders.add(new Order(true));
+        this.orders.add(new Order(true, this));
     }
 
     public boolean isOccupied() {

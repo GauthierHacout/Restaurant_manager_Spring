@@ -25,4 +25,8 @@ public class TableService extends GenericService<Table> {
     public Order findActiveOrderWithItemsById(Long id) {
         return tableRepository.findActiveOrderWithItemsById(id);
     }
+
+    public Table findByIdWithOrders(Long id) {
+        return tableRepository.findByIdWithOrders(id);
+    }
 }
