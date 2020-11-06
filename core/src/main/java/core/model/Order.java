@@ -18,6 +18,10 @@ public class Order extends GenericEntity{
     public Order() {
     }
 
+    public Order(boolean active) {
+        this.active = active;
+    }
+
     public void setActive(boolean active) {
         this.active = active;
     }

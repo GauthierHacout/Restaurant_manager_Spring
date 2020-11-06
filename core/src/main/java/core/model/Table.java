@@ -20,10 +20,13 @@ public class Table extends GenericEntity{
     private Restaurant restaurant;
 
     @OneToMany(mappedBy = "table")
-    @Where(clause = "active = true")
     private List<Order> orders;
 
     public Table() {
+    }
+
+    public void addEmptyActiveOrder() {
+        this.orders.add(new Order(true));
     }
 
     public boolean isOccupied() {
