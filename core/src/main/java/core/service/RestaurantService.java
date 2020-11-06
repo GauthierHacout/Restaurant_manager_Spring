@@ -18,4 +18,8 @@ public class RestaurantService extends GenericService<Restaurant>{
     public Restaurant findByName(String name) {
         return restaurantRepository.findByName(name);
     }
+
+    public Restaurant findByIdWithTables(Long id) {
+        return restaurantRepository.findByIdWithTables(id);
+    }
 }

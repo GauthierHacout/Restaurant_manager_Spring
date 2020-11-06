@@ -9,7 +9,7 @@ public class Order extends GenericEntity{
 
     private boolean active;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Table table;
 
     @OneToMany(mappedBy = "order")

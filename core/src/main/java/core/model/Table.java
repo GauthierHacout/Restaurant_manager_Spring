@@ -16,7 +16,7 @@ public class Table extends GenericEntity{
     @Column(name = "number_of_seats")
     private int numberOfSeats;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Restaurant restaurant;
 
     @OneToMany(mappedBy = "table")

@@ -9,7 +9,7 @@ import javax.persistence.OneToOne;
 @javax.persistence.Table(name= "order_item")
 public class OrderItem extends GenericEntity{
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Order order;
 
     @OneToOne
