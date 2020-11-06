@@ -32,11 +32,25 @@
         #foreach($order in $table.orders)
             <div class="col-sm-12">
                 <div>
-                    <h5 class="card-header">Order #$order.id</h5>
-                    <div class="card-body">
-                        <p class="card-title"> blabla  </p>
-                        <p class="card-text"> blabla </p>
-                    </div>
+                    <h5 class="card-header"><i class="fas fa-utensils"></i> Order #$order.id</h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <ul class="list-group list-group-horizontal">
+                                    <li class="list-group-item w-50">Product</li>
+                                    <li class="list-group-item ">Amount</li>
+                                    <li class="list-group-item">Price</li>
+                                </ul>
+                            </li>
+                            #foreach($item in $order.orderItems)
+                                <li class="list-group-item">
+                                    <ul class="list-group list-group-horizontal">
+                                        <li class="list-group-item w-50">$item.product.name</li>
+                                        <li class="list-group-item ">$item.amount</li>
+                                        <li class="list-group-item">$item.totalPrice $</li>
+                                    </ul>
+                                </li>
+                            #end
+                        </ul>
                 </div>
             </div>
         #end

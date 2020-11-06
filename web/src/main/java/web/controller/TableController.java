@@ -3,6 +3,7 @@ package web.controller;
 import core.model.Table;
 import core.service.TableService;
 import core.service.implementation.TableOrderService;
+import org.apache.commons.collections.map.StaticBucketMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -45,6 +46,8 @@ public class TableController {
         if (table==null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find table");
         }
+
+        System.out.println("Table : "+table);
 
         model.put("table", table);
         return "tableShow";

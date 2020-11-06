@@ -1,6 +1,7 @@
 package core.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @javax.persistence.Table(name= "table_order")
@@ -10,6 +11,9 @@ public class Order extends GenericEntity{
 
     @ManyToOne
     private Table table;
+
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
+    private List<OrderItem> orderItems;
 
     public Order() {
     }
@@ -28,5 +32,13 @@ public class Order extends GenericEntity{
 
     public Table getTable() {
         return table;
+    }
+
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
     }
 }
