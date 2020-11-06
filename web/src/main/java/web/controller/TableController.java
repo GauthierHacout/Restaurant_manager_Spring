@@ -1,8 +1,8 @@
 package web.controller;
 
+import core.model.Order;
 import core.model.Table;
 import core.service.TableService;
-import core.service.implementation.TableOrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -17,13 +17,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class TableController {
 
     private final TableService tableService;
-    private final TableOrderService tableOrderService;
 
     private static final Logger logger = LoggerFactory.getLogger(TableController.class);
 
-    public TableController(TableService tableService, TableOrderService tableOrderService) {
+    public TableController(TableService tableService) {
         this.tableService = tableService;
-        this.tableOrderService = tableOrderService;
     }
 
     @GetMapping("table/{id}/start")
@@ -34,8 +32,8 @@ public class TableController {
         }
 
         logger.info("Table with id : {} has new customers", table.getId());
-        tableOrderService.instanciateOrderFor(table);
-        redirectAttributes.addAttribute("id", table.getRestaurant().getId());
+        tableService.saveWithNewActiveOrder(table);
+        redirectAttributes.addAttribute("id", id);
         return "redirect:/restaurant/{id}/tables";
     }
 
@@ -46,7 +44,13 @@ public class TableController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find table");
         }
 
+        Order order = tableService.findActiveOrderWithItemsById(id);
+        if (order == null) {
+            model.put("error", "There is no active order for this table currently");
+        }
+
         model.put("table", table);
-        return "tableShow";
+        model.put("order", order);
+        return "tableOrderEdition";
     }
 }

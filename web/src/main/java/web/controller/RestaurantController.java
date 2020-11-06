@@ -48,12 +48,12 @@ public class RestaurantController {
 
     @GetMapping("/{id}/tables")
     public String getTables(@PathVariable("id") long id, ModelMap model){
-        Restaurant restaurant = restaurantService.findById(id).orElse(null);
+        Restaurant restaurant = restaurantService.findByIdWithTables(id);
         if (restaurant==null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find Restaurant");
         }
 
         model.put("restaurant", restaurant);
-        return "restaurantTablesIndex";
+        return "restaurantTablesList";
     }
 }
