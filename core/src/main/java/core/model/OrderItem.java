@@ -12,7 +12,7 @@ public class OrderItem extends GenericEntity{
     @ManyToOne
     private Order order;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne
     private Product product;
 
     private int amount;

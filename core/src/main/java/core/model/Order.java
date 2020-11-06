@@ -12,7 +12,7 @@ public class Order extends GenericEntity{
     @ManyToOne
     private Table table;
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "order")
     private List<OrderItem> orderItems;
 
     public Order() {

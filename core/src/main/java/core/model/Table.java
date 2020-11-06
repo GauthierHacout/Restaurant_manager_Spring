@@ -19,7 +19,7 @@ public class Table extends GenericEntity{
     @ManyToOne
     private Restaurant restaurant;
 
-    @OneToMany(mappedBy = "table", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "table")
     @Where(clause = "active = true")
     private List<Order> orders;
 

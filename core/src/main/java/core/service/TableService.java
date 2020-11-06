@@ -1,7 +1,6 @@
 package core.service;
 
 import core.model.Table;
-import core.repository.TableRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

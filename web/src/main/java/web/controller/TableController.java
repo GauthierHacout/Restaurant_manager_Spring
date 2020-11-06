@@ -47,7 +47,7 @@ public class TableController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find table");
         }
 
-        System.out.println("Table : "+table);
+        System.out.println("Table : "+table.getNumber());
 
         model.put("table", table);
         return "tableShow";
