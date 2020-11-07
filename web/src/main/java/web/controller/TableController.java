@@ -1,6 +1,7 @@
 package web.controller;
 
 import core.model.Order;
+import core.model.OrderItem;
 import core.model.Table;
 import core.service.TableService;
 import org.slf4j.Logger;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.stream.Collectors;
 
 @Controller
 public class TableController {
@@ -47,11 +50,13 @@ public class TableController {
 
         Order order = tableService.findActiveOrderWithItemsById(id);
         if (order == null) {
+            logger.info("Table with id : {} has no active order", table.getId());
             model.put("error", "There is no active order for this table currently");
         }
 
         model.put("table", table);
         model.put("order", order);
+        model.put("orderItem", new OrderItem());
         return "tableOrderEdition";
     }
 }

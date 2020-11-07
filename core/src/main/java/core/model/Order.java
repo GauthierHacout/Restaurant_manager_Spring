@@ -9,7 +9,7 @@ public class Order extends GenericEntity{
 
     private boolean active;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Table table;
 
     @OneToMany(mappedBy = "order")

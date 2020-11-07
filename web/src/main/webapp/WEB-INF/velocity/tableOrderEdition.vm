@@ -13,8 +13,28 @@
     <style>
         body {
             padding-top: 50px;
+            font-family: Raleway, serif;
+        }
+
+        table{
+            text-align: center;
         }
     </style>
+
+    <script>
+        function callDeleteRequest(orderItemId) {
+            console.log("called DeleteRequest with id : "+orderItemId);
+            var xhr = new XMLHttpRequest();
+            xhr.open("DELETE", "../orderitem/"+orderItemId, true);
+            xhr.onreadystatechange= function () {
+                if (xhr.readyState===xhr.DONE && xhr.status===200) {
+                    const orderItemRow = document.getElementById(orderItemId);
+                    orderItemRow.style.display = "none";
+                }
+            };
+            xhr.send();
+        }
+    </script>
 
 
 </head>
@@ -32,7 +52,7 @@
             <div class="col-sm-12">
                 <div>
                     #if($error)
-                        <div class="w-75 alert alert-danger mx-auto" role="alert" style="margin: 2%;">
+                        <div class="w-75 alert alert-warning mx-auto" role="alert" style="margin: 2%;">
                             $error
                         </div>
                     #else
@@ -43,18 +63,40 @@
                                     <th scope="col">Product</th>
                                     <th scope="col">Amount</th>
                                     <th scope="col">Price</th>
+                                    <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 #foreach($item in $order.orderItems)
-                                <tr>
+                                <tr id="$item.id">
                                     <td>$item.product.name</td>
                                     <td>$item.amount</td>
-                                    <td>$item.totalPrice</td>
+                                    <td>$item.totalPrice $</td>
+                                    <td>
+                                        <button onclick="callDeleteRequest($item.id)" class="btn btn-outline-danger">
+                                           Delete
+                                        </button>
+                                    </td>
                                 </tr>
                                 #end
+                                <tr>
+                                    <form action="../order/$order.id/orderitem" id="itemForm" method="POST">
+                                        <td>#springFormInput("orderItem.product.name" "type='text' class='form-control' id='product'")</td>
+                                        <td>#springFormInput("orderItem.amount" "type='number' class='form-control' id='amount'")</td>
+                                        <td>&nbsp;</td>
+                                        <td><button type="submit" class="btn btn-outline-success">Add</button></td>
+                                    </form>
+                                </tr>
                             </tbody>
                         </table>
+
+                        <form action="../order/$order.id/inactive" method="GET">
+                            <div class="w-75 mx-auto d-flex justify-content-center">
+                                <button class="btn btn-outline-warning" type="submit">
+                                    Close this order and free the table
+                                </button>
+                            </div>
+                        </form>
                     #end
                 </div>
             </div>
