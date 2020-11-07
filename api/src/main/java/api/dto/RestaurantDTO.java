@@ -33,4 +33,9 @@ public class RestaurantDTO {
     public void setTables(List<TableDTO> tables) {
         this.tables = tables;
     }
+
+    public RestaurantDTO(long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

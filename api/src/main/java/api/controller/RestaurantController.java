@@ -1,13 +1,16 @@
 package api.controller;
 
+import api.dto.OrderDTO;
 import api.dto.RestaurantDTO;
 import api.dto.TableDTO;
+import core.model.OrderItem;
 import core.model.Restaurant;
 import core.service.RestaurantService;
 
 import javax.inject.Named;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -25,11 +28,13 @@ public class RestaurantController implements RestController{
 
     @GET
     @Path("")
-    public Map<Long,String> findAllBooks(){
-        return restaurantService.findAll().stream().collect(Collectors.toMap(
-                Restaurant::getId,
-                Restaurant::getName
-        ));
+    public List<RestaurantDTO> findAllRestaurants(){
+        return restaurantService.findAll().stream().map(
+                restaurant -> {
+                    RestaurantDTO restaurantDTO = new RestaurantDTO(restaurant.getId(), restaurant.getName());
+                    return restaurantDTO;
+                }
+        ).collect(Collectors.toList());
     }
 
     @GET
@@ -37,9 +42,7 @@ public class RestaurantController implements RestController{
     public RestaurantDTO findRestaurantTables(@PathParam("restaurantId") long id){
         Restaurant restaurant = restaurantService.findByIdWithTables(id);
 
-        RestaurantDTO restaurantDTO = new RestaurantDTO();
-        restaurantDTO.setId(id);
-        restaurantDTO.setName(restaurant.getName());
+        RestaurantDTO restaurantDTO = new RestaurantDTO(restaurant.getId(), restaurant.getName());
         restaurantDTO.setTables(
                 restaurant.getTables().stream().map(
                         table -> {
