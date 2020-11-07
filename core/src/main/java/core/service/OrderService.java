@@ -20,4 +20,8 @@ public class OrderService extends GenericService<Order> {
         order.getTable().setOccupied(false);
         orderRepository.save(order);
     }
+
+    public Order findActiveOrderWithItemsByTableId(Long id) {
+        return orderRepository.findActiveOrderWithItemsByTableId(id);
+    }
 }

@@ -34,6 +34,8 @@
             };
             xhr.send();
         }
+
+        console.debug($products);
     </script>
 
 
@@ -46,6 +48,9 @@
     <div class="jumbotron">
         <h1>Table management</h1>
         <h3>Table #$table.number</h3>
+        <div>$order</div>
+        <div>$table</div>
+        <div>$products</div>
     </div>
 
     <div class="row">
@@ -60,10 +65,10 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col">Product</th>
-                                    <th scope="col">Amount</th>
-                                    <th scope="col">Price</th>
-                                    <th scope="col">Action</th>
+                                    <th scope="col" class="col-3">Product</th>
+                                    <th scope="col" class="col-1">Amount</th>
+                                    <th scope="col" class="col-1">Price</th>
+                                    <th scope="col" class="col-2">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -81,8 +86,8 @@
                                 #end
                                 <tr>
                                     <form action="../order/$order.id/orderitem" id="itemForm" method="POST">
-                                        <td>#springFormInput("orderItem.product.name" "type='text' class='form-control' id='product'")</td>
-                                        <td>#springFormInput("orderItem.amount" "type='number' class='form-control' id='amount'")</td>
+                                        <td>#springFormSingleSelect("orderItem.product" $products "id='product'")</td>
+                                        <td>#springFormInput("orderItem.amount" "type='number' class='form-control w-50 mx-auto' id='amount'")</td>
                                         <td>&nbsp;</td>
                                         <td><button type="submit" class="btn btn-outline-success">Add</button></td>
                                     </form>
