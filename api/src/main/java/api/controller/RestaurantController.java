@@ -4,6 +4,8 @@ import api.dto.RestaurantDTO;
 import api.dto.TableDTO;
 import core.model.Restaurant;
 import core.service.RestaurantService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -31,7 +33,7 @@ public class RestaurantController {
     }
 
     @GetMapping("/{restaurantId}/tables")
-    public Object findRestaurantTables(@PathVariable("restaurantId") Long id){
+    public ResponseEntity<Object> findRestaurantTables(@PathVariable("restaurantId") Long id){
         try {
             Restaurant restaurant = restaurantService.findByIdWithTables(id);
             RestaurantDTO restaurantDTO = new RestaurantDTO(restaurant.getId(), restaurant.getName());
@@ -42,9 +44,13 @@ public class RestaurantController {
                                 return dto;
                             }
                     ).collect(Collectors.toList()));
-            return restaurantDTO;
+            return new ResponseEntity<>(
+                    restaurantDTO, HttpStatus.OK
+            );
         } catch (Exception e) {
-            return Collections.singletonMap("error", "Could not find restaurant with id "+ id);
+            return new ResponseEntity<>(
+                    Collections.singletonMap("error", "Could not find restaurant with id "+ id), HttpStatus.NOT_FOUND
+            );
         }
     }
 }
