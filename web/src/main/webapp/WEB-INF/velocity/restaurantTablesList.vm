@@ -13,6 +13,7 @@
     <style>
         body {
             padding-top: 50px;
+            font-family: Raleway, serif;
         }
     </style>
 
@@ -23,7 +24,7 @@
 
 <div class="container">
 
-    <div class="jumbotron">
+    <div class="jumbotron py-4">
         <h1>Table management</h1>
         <h3>$restaurant.name</h3>
     </div>

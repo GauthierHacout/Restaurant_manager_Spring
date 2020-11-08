@@ -13,8 +13,38 @@
     <style>
         body {
             padding-top: 50px;
+            font-family: Raleway, serif;
+        }
+
+        table{
+            text-align: center;
         }
     </style>
+
+    <script>
+        function addFormValidation() {
+            const itemAmount = document.itemForm.amount.value;
+            const itemAmountError = document.getElementById("item_amount_error");
+            if (parseInt(itemAmount)<1) {
+                itemAmountError.style.display="";
+                return false;
+            }
+            itemAmountError.style.display="none";
+            return true;
+        }
+
+        function callDeleteRequest(orderItemId) {
+            const xhr = new XMLHttpRequest();
+            xhr.open("DELETE", "../orderitem/"+orderItemId, true);
+            xhr.onreadystatechange= function () {
+                if (xhr.readyState===xhr.DONE && xhr.status===200) {
+                    const orderItemRow = document.getElementById(orderItemId);
+                    orderItemRow.style.display = "none";
+                }
+            };
+            xhr.send();
+        }
+    </script>
 
 
 </head>
@@ -23,7 +53,7 @@
 
 <div class="container">
 
-    <div class="jumbotron">
+    <div class="jumbotron py-4">
         <h1>Table management</h1>
         <h3>Table #$table.number</h3>
     </div>
@@ -32,7 +62,7 @@
             <div class="col-sm-12">
                 <div>
                     #if($error)
-                        <div class="w-75 alert alert-danger mx-auto" role="alert" style="margin: 2%;">
+                        <div class="w-75 alert alert-warning mx-auto" role="alert" style="margin: 2%;">
                             $error
                         </div>
                     #else
@@ -40,21 +70,47 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th scope="col">Product</th>
-                                    <th scope="col">Amount</th>
-                                    <th scope="col">Price</th>
+                                    <th scope="col" class="col-3">Product</th>
+                                    <th scope="col" class="col-1">Amount</th>
+                                    <th scope="col" class="col-1">Price</th>
+                                    <th scope="col" class="col-2">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 #foreach($item in $order.orderItems)
-                                <tr>
+                                <tr id="$item.id">
                                     <td>$item.product.name</td>
                                     <td>$item.amount</td>
-                                    <td>$item.totalPrice</td>
+                                    <td>$item.totalPrice $</td>
+                                    <td>
+                                        <button onclick="callDeleteRequest($item.id)" class="btn btn-outline-danger">
+                                           Delete
+                                        </button>
+                                    </td>
                                 </tr>
                                 #end
+                                <tr>
+                                    <form action="../order/$order.id/orderitem" name="itemForm" method="POST" onsubmit="return addFormValidation()">
+                                        <td>#springFormSingleSelect("orderItem.product" $products "class='custom-select w-50 mx-auto' id='productId'")</td>
+                                        <td>#springFormInput("orderItem.amount" "type='number' class='form-control w-50 mx-auto' id='amount'")</td>
+                                        <td id="add_price">&nbsp;</td>
+                                        <td><button type="submit" class="btn btn-outline-success">Add</button></td>
+                                    </form>
+                                </tr>
                             </tbody>
                         </table>
+
+                        <div class="alert alert-danger text-center mx-auto w-50" role="alert" style="display: none"id="item_amount_error">
+                            The amount of product must be greater than 0 !
+                        </div>
+
+                        <form action="../order/$order.id" method="GET">
+                            <div class="w-75 mt-5 mx-auto d-flex justify-content-center">
+                                <button class="btn btn-outline-warning" type="submit">
+                                    Close this order and free the table
+                                </button>
+                            </div>
+                        </form>
                     #end
                 </div>
             </div>

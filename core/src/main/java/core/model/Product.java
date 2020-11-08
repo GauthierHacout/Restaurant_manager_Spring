@@ -21,6 +21,10 @@ public class Product extends GenericEntity{
     public Product() {
     }
 
+    public Product(Long id) {
+        this.setId(id);
+    }
+
     public Restaurant getRestaurant() {
         return restaurant;
     }
