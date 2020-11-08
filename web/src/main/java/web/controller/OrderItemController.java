@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -37,14 +38,22 @@ public class OrderItemController {
     }
 
     @PostMapping(value = "order/{id}/orderitem")
-    public String createOrderItem(@ModelAttribute("orderItem") @Valid OrderItem orderItem, @PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+    public String createOrderItem(@ModelAttribute("orderItem") @Valid OrderItem orderItem,
+                                  @PathVariable("id") Long id,
+                                  RedirectAttributes redirectAttributes,
+                                  BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            logger.warn(bindingResult.toString());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unable to create orderItem with theses properties");
+        }
+
         Order order = orderService.findById(id).orElse(null);
         if (order==null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find order");
         }
 
-        logger.info("New Order Item was created for Order with id : {}", id);
         orderItemService.setOrderAndSave(order, orderItem);
+        logger.info("New Order Item was created for Order with id : {}", id);
 
         redirectAttributes.addAttribute("id", order.getTable().getId());
         return "redirect:/table/{id}";
