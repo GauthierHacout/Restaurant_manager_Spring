@@ -17,7 +17,42 @@
         }
     </style>
 
+    <script>
+        function addFormValidation(numbers) {
+            const capacityError = document.getElementById("capacity_error");
+            const numberError = document.getElementById("number_error");
+            const capacityInput = document.addForm.numberOfSeats;
+            const capacity = Number(capacityInput.value);
+            const numberInput = document.addForm.number;
+            const number = Number(numberInput.value);
+            let error = false;
 
+            deactivate(capacityInput, capacityError);
+            deactivate(numberInput, numberError);
+
+            if (isNaN(capacity) || capacity<1) {
+                activate(capacityInput, capacityError);
+                error = true;
+            }
+            if (isNaN(number) || (numbers.includes(number))) {
+                activate(numberInput, numberError);
+                error = true;
+            }
+            return !error;
+        }
+
+        function activate(input, error) {
+            input.style.color="red";
+            input.style.borderColor="red";
+            error.style.display="";
+        }
+
+        function deactivate(input, error) {
+            input.style.color="";
+            input.style.borderColor="";
+            error.style.display="none";
+        }
+    </script>
 </head>
 
 <body>
@@ -30,7 +65,9 @@
     </div>
 
     <div class="row">
+        #set($numbers = [])
         #foreach($table in $restaurant.tables)
+            #set($dummyVariable = $numbers.add($table.number))
             <div class="col-sm-3">
                 <div class="card mb-3 #if($table.occupied)border-warning#{else}border-success#end">
                     <h5 class="card-header">Table #$table.number</h5>
@@ -51,6 +88,25 @@
                 </div>
             </div>
         #end
+        <div class="col-sm-3">
+            <div class="card mb-3 border-primary">
+                <h5 class="card-header">New Table</h5>
+                <div class="card-body">
+                   <form action="../$restaurant.id/table" method="POST" onsubmit="return addFormValidation($numbers)" name="addForm">
+                       <p class="card-text text-center text-danger" id="capacity_error" style="display: none">Capacity must be greater than 0</p>
+                       <p class="card-text text-center text-danger" id="number_error" style="display: none">This number is already in use</p>
+                       <p class="card-text d-flex">
+                           <label for="table_number" class="my-auto">Number</label>
+                           #springFormInput("table_form.number" "type='number' class='form-control form-control-sm w-25 mx-auto'")
+                       <p class="card-text d-flex">
+                           <label for="table_capacity" class="my-auto">Capacity</label>
+                            #springFormInput("table_form.numberOfSeats" "type='number' class='form-control form-control-sm w-25 mx-auto'")
+                       </p>
+                       <button type="submit" class="btn btn-outline-primary" >Add</button>
+                   </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

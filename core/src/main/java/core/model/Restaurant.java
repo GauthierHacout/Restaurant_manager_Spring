@@ -8,8 +8,12 @@ public class Restaurant extends GenericEntity{
 
     private String name;
 
-    @OneToMany(mappedBy = "restaurant")
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    @OrderBy("number")
     private List<Table> tables;
+
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    private List<Product> products;
 
     public Restaurant() {
     }
@@ -24,5 +28,17 @@ public class Restaurant extends GenericEntity{
 
     public List<Table> getTables() {
         return tables;
+    }
+
+    public void setTables(List<Table> tables) {
+        this.tables = tables;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
     }
 }

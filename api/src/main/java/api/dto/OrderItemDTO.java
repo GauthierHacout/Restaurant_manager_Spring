@@ -2,7 +2,7 @@ package api.dto;
 
 public class OrderItemDTO {
 
-    private long id;
+    private Long id;
 
     private double totalPrice;
 
@@ -10,11 +10,11 @@ public class OrderItemDTO {
 
     private String product;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -42,7 +42,7 @@ public class OrderItemDTO {
         this.product = product;
     }
 
-    public OrderItemDTO(long id, double totalPrice, int amount, String product) {
+    public OrderItemDTO(Long id, double totalPrice, int amount, String product) {
         this.id = id;
         this.totalPrice = totalPrice;
         this.amount = amount;

@@ -1,5 +1,6 @@
 package web.controller;
 
+import core.model.Table;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -45,13 +46,14 @@ public class RestaurantController {
     }
 
     @GetMapping("/{id}/tables")
-    public String getTables(@PathVariable("id") long id, ModelMap model){
+    public String getTables(@PathVariable("id") Long id, ModelMap model){
         Restaurant restaurant = restaurantService.findByIdWithTables(id);
         if (restaurant==null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find Restaurant");
         }
 
         model.put("restaurant", restaurant);
+        model.put("table_form", new Table());
         return "restaurantTablesList";
     }
 }

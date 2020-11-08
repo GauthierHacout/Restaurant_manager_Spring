@@ -8,27 +8,27 @@ import java.util.List;
 @JsonInclude(Include.NON_NULL)
 public class TableDTO {
 
-    private long id;
+    private Long id;
 
-    private long number;
+    private int number;
 
     private boolean occupied;
 
     private List<OrderDTO> orders;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public long getNumber() {
+    public int getNumber() {
         return number;
     }
 
-    public void setNumber(long number) {
+    public void setNumber(int number) {
         this.number = number;
     }
 
@@ -48,7 +48,7 @@ public class TableDTO {
         this.orders = orders;
     }
 
-    public TableDTO(long id, long number, boolean occupied) {
+    public TableDTO(Long id, int number, boolean occupied) {
         this.id = id;
         this.number = number;
         this.occupied = occupied;

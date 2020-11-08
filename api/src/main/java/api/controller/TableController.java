@@ -32,7 +32,7 @@ public class TableController implements RestController{
 
     @GET
     @Path("/{tableId}")
-    public TableDTO tableOrderHistory(@PathParam("tableId") long id){
+    public TableDTO tableOrderHistory(@PathParam("tableId") Long id){
         Table table = tableService.findByIdWithOrders(id);
         List<Order> orders = table.getOrders();
         TableDTO tableDTO = new TableDTO(table.getId(), table.getNumber(), table.isOccupied());
