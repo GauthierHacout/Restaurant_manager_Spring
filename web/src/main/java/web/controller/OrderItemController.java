@@ -48,9 +48,7 @@ public class OrderItemController {
         }
 
         Order order = orderService.findById(id).orElse(null);
-        if (order==null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find order");
-        }
+        if (order==null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find order");
 
         orderItemService.setOrderAndSave(order, orderItem);
         logger.info("New Order Item was created for Order with id : {}", id);

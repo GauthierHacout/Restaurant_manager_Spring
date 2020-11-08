@@ -59,9 +59,8 @@ public class TableController {
     @GetMapping("table/{id}")
     public String showTable(@PathVariable("id") Long id, ModelMap model) {
         Table table = tableService.findById(id).orElse(null);
-        if (table==null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find table");
-        }
+        if (table==null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find table");
+
 
         Order order = orderService.findActiveOrderWithItemsByTableId(id);
         if (order == null) {
@@ -89,11 +88,8 @@ public class TableController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unable to create table with theses properties");
         }
 
-
         Restaurant restaurant = restaurantService.findById(restaurantId).orElse(null);
-        if (restaurant==null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find Restaurant");
-        }
+        if (restaurant==null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find Restaurant");
 
         try {
             tableService.setRestaurantAndSave(restaurant, createdTable);
