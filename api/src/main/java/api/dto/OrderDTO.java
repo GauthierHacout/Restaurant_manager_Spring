@@ -4,17 +4,17 @@ import java.util.List;
 
 public class OrderDTO {
 
-    private long id;
+    private Long id;
 
     private boolean active;
 
     private List<OrderItemDTO> orderItems;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -34,7 +34,7 @@ public class OrderDTO {
         this.orderItems = orderItems;
     }
 
-    public OrderDTO(long id, boolean active) {
+    public OrderDTO(Long id, boolean active) {
         this.id = id;
         this.active = active;
     }

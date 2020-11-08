@@ -8,17 +8,17 @@ import java.util.List;
 @JsonInclude(Include.NON_NULL)
 public class RestaurantDTO {
 
-    private long id;
+    private Long id;
 
     private String name;
 
     private List<TableDTO> tables;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -38,7 +38,7 @@ public class RestaurantDTO {
         this.tables = tables;
     }
 
-    public RestaurantDTO(long id, String name) {
+    public RestaurantDTO(Long id, String name) {
         this.id = id;
         this.name = name;
     }

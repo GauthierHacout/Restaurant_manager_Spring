@@ -25,12 +25,12 @@
         function addFormValidation() {
             const itemAmount = document.itemForm.amount.value;
             const itemAmountError = document.getElementById("item_amount_error");
-            if (parseInt(itemAmount)<1) {
-                itemAmountError.style.display="";
-                return false;
+            if (Number(itemAmount)>0) {
+                itemAmountError.style.display="none";
+                return true;
             }
-            itemAmountError.style.display="none";
-            return true;
+            itemAmountError.style.display="";
+            return false;
         }
 
         function callDeleteRequest(orderItemId) {

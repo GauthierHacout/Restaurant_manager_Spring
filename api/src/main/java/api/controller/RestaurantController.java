@@ -39,7 +39,7 @@ public class RestaurantController implements RestController{
 
     @GET
     @Path("/{restaurantId}/tables")
-    public RestaurantDTO findRestaurantTables(@PathParam("restaurantId") long id){
+    public RestaurantDTO findRestaurantTables(@PathParam("restaurantId") Long id){
         Restaurant restaurant = restaurantService.findByIdWithTables(id);
 
         RestaurantDTO restaurantDTO = new RestaurantDTO(restaurant.getId(), restaurant.getName());

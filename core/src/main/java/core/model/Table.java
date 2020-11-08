@@ -1,12 +1,19 @@
 package core.model;
 
-import org.hibernate.annotations.Where;
-
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 @Entity
-@javax.persistence.Table(name = "restaurant_table")
+@javax.persistence.Table(
+        name = "restaurant_table",
+        uniqueConstraints = {
+            @UniqueConstraint(columnNames = {"" +
+                    "number",
+                    "restaurant_id"
+            })
+        }
+)
 public class Table extends GenericEntity{
 
     private int number;
@@ -14,6 +21,7 @@ public class Table extends GenericEntity{
     private boolean occupied;
 
     @Column(name = "number_of_seats")
+    @Min(value=1, message = "Capacity should be greater than 0")
     private int numberOfSeats;
 
     @ManyToOne
@@ -35,6 +43,15 @@ public class Table extends GenericEntity{
 
     public void setOccupied(boolean occupied) {
         this.occupied = occupied;
+    }
+
+    public boolean hasActiveOrder() {
+        for (Order order : this.orders) {
+            if (order.isActive()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public int getNumber() {
