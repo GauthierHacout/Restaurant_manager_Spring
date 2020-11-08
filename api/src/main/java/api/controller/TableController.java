@@ -8,6 +8,8 @@ import core.model.OrderItem;
 import core.model.Table;
 import core.service.OrderItemService;
 import core.service.TableService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -28,15 +30,19 @@ public class TableController {
     }
 
     @GetMapping("/{tableId}")
-    public Object tableOrderHistory(@PathVariable("tableId") Long id){
+    public ResponseEntity<Object> tableOrderHistory(@PathVariable("tableId") Long id){
         try {
             Table table = tableService.findByIdWithOrders(id);
             List<Order> orders = table.getOrders();
             TableDTO tableDTO = new TableDTO(table.getId(), table.getNumber(), table.isOccupied());
             tableDTO.setOrders(transformOrdersToOrdersDTO(orders));
-            return tableDTO;
+            return new ResponseEntity<>(
+                    tableDTO, HttpStatus.OK
+            );
         } catch (Exception e) {
-            return Collections.singletonMap("error", "Could not find table with id "+ id);
+            return new ResponseEntity<>(
+                    Collections.singletonMap("error", "Could not find table with id "+ id), HttpStatus.NOT_FOUND
+            );
         }
     }
 

@@ -2,6 +2,8 @@ package api.controller;
 
 import core.model.Product;
 import core.service.ProductService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,8 +17,8 @@ public class ProductController {
     }
 
     @PostMapping("")
-    public Product saveReview(@RequestBody Product product){
-        return productService.save(product);
+    public ResponseEntity<Product> saveReview(@RequestBody Product product){
+        return new ResponseEntity<>(productService.save(product), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{productId}")
