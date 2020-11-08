@@ -28,7 +28,7 @@ public class TableController {
     }
 
     @GetMapping("/{tableId}")
-    public Object tableOrderHistory(@PathVariable("tableId") long id){
+    public Object tableOrderHistory(@PathVariable("tableId") Long id){
         try {
             Table table = tableService.findByIdWithOrders(id);
             List<Order> orders = table.getOrders();

@@ -31,7 +31,7 @@ public class RestaurantController {
     }
 
     @GetMapping("/{restaurantId}/tables")
-    public Object findRestaurantTables(@PathVariable("restaurantId") long id){
+    public Object findRestaurantTables(@PathVariable("restaurantId") Long id){
         try {
             Restaurant restaurant = restaurantService.findByIdWithTables(id);
             RestaurantDTO restaurantDTO = new RestaurantDTO(restaurant.getId(), restaurant.getName());

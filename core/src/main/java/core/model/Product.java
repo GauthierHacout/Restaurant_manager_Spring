@@ -2,6 +2,7 @@ package core.model;
 
 import javax.persistence.*;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
 
 @Entity
 @Table(name ="restaurant_product")
@@ -23,6 +24,11 @@ public class Product extends GenericEntity{
 
     public Product(Long id) {
         this.setId(id);
+    }
+
+    @Override
+    public String toString() {
+        return name+" ("+price+")";
     }
 
     public Restaurant getRestaurant() {
