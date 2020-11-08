@@ -25,9 +25,7 @@ public class OrderController {
     @GetMapping(value = "order/{id}")
     public String makeOrderInactive(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         Order order = orderService.findById(id).orElse(null);
-        if (order == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find this order");
-        }
+        if (order == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find this order");
 
         logger.info("Order with id : {} was set to inactive", order.getId());
         orderService.setInactiveAndSave(order);

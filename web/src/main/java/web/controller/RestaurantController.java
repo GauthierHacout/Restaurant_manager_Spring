@@ -27,18 +27,15 @@ public class RestaurantController {
     @GetMapping()
     public String getLogin(ModelMap model, @RequestParam(value="error", defaultValue= "false", required=false) Boolean error) {
         model.addAttribute("restaurant", new Restaurant());
-        if (error) {
-            model.addAttribute("error", "There is no restaurant with this name");
-        }
+        if (error) model.addAttribute("error", "There is no restaurant with this name");
+
         return "restaurantLogin";
     }
 
     @PostMapping()
     public String checkLogin(@ModelAttribute("restaurant") Restaurant r, RedirectAttributes redirectAttributes) {
         Restaurant restaurant = restaurantService.findByName(r.getName());
-        if (restaurant == null) {
-            return "redirect:/restaurant?error=true";
-        }
+        if (restaurant == null) return "redirect:/restaurant?error=true";
 
         logger.info("New connection to restaurant with name : {}", restaurant.getName());
         redirectAttributes.addAttribute("id", restaurant.getId());
@@ -48,9 +45,7 @@ public class RestaurantController {
     @GetMapping("/{id}/tables")
     public String getTables(@PathVariable("id") Long id, ModelMap model){
         Restaurant restaurant = restaurantService.findByIdWithTables(id);
-        if (restaurant==null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find Restaurant");
-        }
+        if (restaurant==null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find Restaurant");
 
         model.put("restaurant", restaurant);
         model.put("table_form", new Table());
