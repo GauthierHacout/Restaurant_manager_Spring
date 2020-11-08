@@ -35,7 +35,7 @@
         </form>
 
         #if($error)
-            <div class="w-75 alert alert-danger mx-auto" role="alert" style="margin: 2%;">
+            <div class="w-75 alert alert-danger mx-auto" role="alert">
                 $error
             </div>
         #end

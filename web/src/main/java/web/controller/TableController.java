@@ -1,9 +1,6 @@
 package web.controller;
 
-import core.model.Order;
-import core.model.OrderItem;
-import core.model.Product;
-import core.model.Table;
+import core.model.*;
 import core.service.OrderService;
 import core.service.ProductService;
 import core.service.TableService;
@@ -63,11 +60,10 @@ public class TableController {
             model.put("error", "There is no active order for this table currently");
         }
 
-        Map<Product, String> products = productService
+        Map<Long, String> products = productService
                 .findAllByRestaurantId(table.getRestaurant().getId())
-                .stream().collect(Collectors.toMap(Function.identity(), Product::getName));
+                .stream().collect(Collectors.toMap(Product::getId, p -> p.getName()+" ("+p.getPrice()+")"));
 
-        products.forEach((k,v) -> System.out.println("Products : "+k.getName()));
         model.put("table", table);
         model.put("order", order);
         model.put("products", products);

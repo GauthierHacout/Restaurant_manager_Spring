@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
 @Controller
 public class OrderController {
 
@@ -23,7 +22,7 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @GetMapping(value = "order/{id}/inactive")
+    @GetMapping(value = "order/{id}")
     public String makeOrderInactive(@PathVariable("id") long id, RedirectAttributes redirectAttributes) {
         Order order = orderService.findById(id).orElse(null);
         if (order == null) {

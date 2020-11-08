@@ -22,9 +22,19 @@
     </style>
 
     <script>
+        function addFormValidation() {
+            const itemAmount = document.itemForm.amount.value;
+            const itemAmountError = document.getElementById("item_amount_error");
+            if (parseInt(itemAmount)<1) {
+                itemAmountError.style.display="";
+                return false;
+            }
+            itemAmountError.style.display="none";
+            return true;
+        }
+
         function callDeleteRequest(orderItemId) {
-            console.log("called DeleteRequest with id : "+orderItemId);
-            var xhr = new XMLHttpRequest();
+            const xhr = new XMLHttpRequest();
             xhr.open("DELETE", "../orderitem/"+orderItemId, true);
             xhr.onreadystatechange= function () {
                 if (xhr.readyState===xhr.DONE && xhr.status===200) {
@@ -34,8 +44,6 @@
             };
             xhr.send();
         }
-
-        console.debug($products);
     </script>
 
 
@@ -45,12 +53,9 @@
 
 <div class="container">
 
-    <div class="jumbotron">
+    <div class="jumbotron py-4">
         <h1>Table management</h1>
         <h3>Table #$table.number</h3>
-        <div>$order</div>
-        <div>$table</div>
-        <div>$products</div>
     </div>
 
     <div class="row">
@@ -85,18 +90,22 @@
                                 </tr>
                                 #end
                                 <tr>
-                                    <form action="../order/$order.id/orderitem" id="itemForm" method="POST">
-                                        <td>#springFormSingleSelect("orderItem.product" $products "id='product'")</td>
+                                    <form action="../order/$order.id/orderitem" name="itemForm" method="POST" onsubmit="return addFormValidation()">
+                                        <td>#springFormSingleSelect("orderItem.product" $products "class='custom-select w-50 mx-auto' id='productId'")</td>
                                         <td>#springFormInput("orderItem.amount" "type='number' class='form-control w-50 mx-auto' id='amount'")</td>
-                                        <td>&nbsp;</td>
+                                        <td id="add_price">&nbsp;</td>
                                         <td><button type="submit" class="btn btn-outline-success">Add</button></td>
                                     </form>
                                 </tr>
                             </tbody>
                         </table>
 
-                        <form action="../order/$order.id/inactive" method="GET">
-                            <div class="w-75 mx-auto d-flex justify-content-center">
+                        <div class="alert alert-danger text-center mx-auto w-50" role="alert" style="display: none"id="item_amount_error">
+                            The amount of product must be greater than 0 !
+                        </div>
+
+                        <form action="../order/$order.id" method="GET">
+                            <div class="w-75 mt-5 mx-auto d-flex justify-content-center">
                                 <button class="btn btn-outline-warning" type="submit">
                                     Close this order and free the table
                                 </button>
