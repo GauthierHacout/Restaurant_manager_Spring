@@ -1,19 +1,12 @@
 package api.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import core.model.Product;
 import core.service.ProductService;
+import org.springframework.web.bind.annotation.*;
 
-import javax.inject.Named;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
-@Named
-@Path("/product")
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
-public class ProductController implements RestController {
+@RestController
+@RequestMapping("/product")
+public class ProductController {
 
     private ProductService productService;
 
@@ -21,28 +14,13 @@ public class ProductController implements RestController {
         this.productService = productService;
     }
 
-    @POST
-    @Path("")
-    public Response saveReview(String productJSON){
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            Product createdProduct = objectMapper.readValue(productJSON, Product.class);
-            productService.save(createdProduct);
-            return Response
-                    .status(Response.Status.CREATED)
-                    .entity(createdProduct)
-                    .build();
-        } catch (Exception e) {
-            return Response
-                    .status(Response.Status.BAD_REQUEST)
-                    .entity(e.getMessage())
-                    .build();
-        }
+    @PostMapping("")
+    public Product saveReview(@RequestBody Product product){
+        return productService.save(product);
     }
 
-    @DELETE
-    @Path("/{productId}")
-    public void deleteReview(@PathParam("productId")Long productId){
+    @DeleteMapping("/{productId}")
+    public void deleteReview(@PathVariable("productId")Long productId){
         productService.deleteById(productId);
     }
 }

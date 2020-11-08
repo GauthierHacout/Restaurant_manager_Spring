@@ -1,23 +1,18 @@
 package api.controller;
 
-import api.dto.OrderDTO;
 import api.dto.RestaurantDTO;
 import api.dto.TableDTO;
-import core.model.OrderItem;
 import core.model.Restaurant;
 import core.service.RestaurantService;
+import org.springframework.web.bind.annotation.*;
 
-import javax.inject.Named;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Named
-@Path("/restaurant")
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
-public class RestaurantController implements RestController{
+@RestController
+@RequestMapping("/restaurant")
+public class RestaurantController {
 
     private RestaurantService restaurantService;
 
@@ -25,8 +20,7 @@ public class RestaurantController implements RestController{
         this.restaurantService = restaurantService;
     }
 
-    @GET
-    @Path("")
+    @GetMapping("")
     public List<RestaurantDTO> findAllRestaurants(){
         return restaurantService.findAll().stream().map(
                 restaurant -> {
@@ -36,19 +30,21 @@ public class RestaurantController implements RestController{
         ).collect(Collectors.toList());
     }
 
-    @GET
-    @Path("/{restaurantId}/tables")
-    public RestaurantDTO findRestaurantTables(@PathParam("restaurantId") long id){
-        Restaurant restaurant = restaurantService.findByIdWithTables(id);
-
-        RestaurantDTO restaurantDTO = new RestaurantDTO(restaurant.getId(), restaurant.getName());
-        restaurantDTO.setTables(
-                restaurant.getTables().stream().map(
-                        table -> {
-                            TableDTO dto = new TableDTO(table.getId(), table.getNumber(), table.isOccupied());
-                            return dto;
-                        }
-                ).collect(Collectors.toList()));
-        return restaurantDTO;
+    @GetMapping("/{restaurantId}/tables")
+    public Object findRestaurantTables(@PathVariable("restaurantId") long id){
+        try {
+            Restaurant restaurant = restaurantService.findByIdWithTables(id);
+            RestaurantDTO restaurantDTO = new RestaurantDTO(restaurant.getId(), restaurant.getName());
+            restaurantDTO.setTables(
+                    restaurant.getTables().stream().map(
+                            table -> {
+                                TableDTO dto = new TableDTO(table.getId(), table.getNumber(), table.isOccupied());
+                                return dto;
+                            }
+                    ).collect(Collectors.toList()));
+            return restaurantDTO;
+        } catch (Exception e) {
+            return Collections.singletonMap("error", "Could not find restaurant with id "+ id);
+        }
     }
 }
