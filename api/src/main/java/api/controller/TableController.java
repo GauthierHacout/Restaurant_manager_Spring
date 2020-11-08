@@ -8,18 +8,17 @@ import core.model.OrderItem;
 import core.model.Table;
 import core.service.OrderItemService;
 import core.service.TableService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import javax.inject.Named;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Named
-@Path("/table")
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
-public class TableController implements RestController{
+@RestController
+@RequestMapping("/table")
+public class TableController {
 
     private TableService tableService;
 
@@ -30,14 +29,21 @@ public class TableController implements RestController{
         this.orderItemService = orderItemService;
     }
 
-    @GET
-    @Path("/{tableId}")
-    public TableDTO tableOrderHistory(@PathParam("tableId") Long id){
-        Table table = tableService.findByIdWithOrders(id);
-        List<Order> orders = table.getOrders();
-        TableDTO tableDTO = new TableDTO(table.getId(), table.getNumber(), table.isOccupied());
-        tableDTO.setOrders(transformOrdersToOrdersDTO(orders));
-        return tableDTO;
+    @GetMapping("/{tableId}")
+    public ResponseEntity<Object> tableOrderHistory(@PathVariable("tableId") Long id){
+        try {
+            Table table = tableService.findByIdWithOrders(id);
+            List<Order> orders = table.getOrders();
+            TableDTO tableDTO = new TableDTO(table.getId(), table.getNumber(), table.isOccupied());
+            tableDTO.setOrders(transformOrdersToOrdersDTO(orders));
+            return new ResponseEntity<>(
+                    tableDTO, HttpStatus.OK
+            );
+        } catch (Exception e) {
+            return new ResponseEntity<>(
+                    Collections.singletonMap("error", "Could not find table with id "+ id), HttpStatus.NOT_FOUND
+            );
+        }
     }
 
     private List<OrderDTO> transformOrdersToOrdersDTO(List<Order> orders) {
