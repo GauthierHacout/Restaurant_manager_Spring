@@ -23,7 +23,7 @@ public class ProductController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Product> saveReview(@RequestBody Product product){
+    public ResponseEntity<Product> saveProduct(@RequestBody Product product){
         Product createdProduct = productService.save(product);
 
         logger.info("POST - /product - CREATED WITH ID : {}", createdProduct.getId());
@@ -33,7 +33,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{productId}")
-    public ResponseEntity<Object> deleteReview(@PathVariable("productId")Long productId){
+    public ResponseEntity<Object> deleteProduct(@PathVariable("productId")Long productId){
         try {
             productService.deleteById(productId);
             logger.info("DELETE - /product/{} - OK", productId);
