@@ -8,6 +8,8 @@ import core.model.OrderItem;
 import core.model.Table;
 import core.service.OrderItemService;
 import core.service.TableService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +26,8 @@ public class TableController {
 
     private OrderItemService orderItemService;
 
+    private static final Logger logger = LoggerFactory.getLogger(TableController.class);
+
     public TableController(TableService tableService, OrderItemService orderItemService) {
         this.tableService = tableService;
         this.orderItemService = orderItemService;
@@ -36,10 +40,13 @@ public class TableController {
             List<Order> orders = table.getOrders();
             TableDTO tableDTO = new TableDTO(table.getId(), table.getNumber(), table.isOccupied());
             tableDTO.setOrders(transformOrdersToOrdersDTO(orders));
+
+            logger.info("GET - /table/{} - OK", id);
             return new ResponseEntity<>(
                     tableDTO, HttpStatus.OK
             );
         } catch (Exception e) {
+            logger.error("GET - /table/{} - NOT FOUND", id);
             return new ResponseEntity<>(
                     Collections.singletonMap("error", "Could not find table with id "+ id), HttpStatus.NOT_FOUND
             );
