@@ -4,6 +4,8 @@ import api.dto.RestaurantDTO;
 import api.dto.TableDTO;
 import core.model.Restaurant;
 import core.service.RestaurantService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,12 +20,16 @@ public class RestaurantController {
 
     private RestaurantService restaurantService;
 
+    private static final Logger logger = LoggerFactory.getLogger(RestaurantController.class);
+
     public RestaurantController(RestaurantService restaurantService) {
         this.restaurantService = restaurantService;
     }
 
     @GetMapping("")
     public List<RestaurantDTO> findAllRestaurants(){
+        logger.info("GET - /restaurant - OK");
+
         return restaurantService.findAll().stream().map(
                 restaurant -> {
                     RestaurantDTO restaurantDTO = new RestaurantDTO(restaurant.getId(), restaurant.getName());
@@ -44,10 +50,13 @@ public class RestaurantController {
                                 return dto;
                             }
                     ).collect(Collectors.toList()));
+
+            logger.info("GET - /restaurant/{}/tables - FOUND", id);
             return new ResponseEntity<>(
-                    restaurantDTO, HttpStatus.OK
+                    restaurantDTO, HttpStatus.FOUND
             );
         } catch (Exception e) {
+            logger.error("GET - /restaurant/{}/tables - NOT FOUND", id);
             return new ResponseEntity<>(
                     Collections.singletonMap("error", "Could not find restaurant with id "+ id), HttpStatus.NOT_FOUND
             );
