@@ -8,12 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.Validator;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-
-import javax.validation.Valid;
 import java.util.Collections;
 
 @RestController
@@ -30,7 +26,6 @@ public class ProductController {
 
     @PostMapping("")
     public ResponseEntity<Product> saveProduct(@RequestBody ProductDTO productDTO){
-
         ModelMapper modelMapper = new ModelMapper();
         Product createdProduct = modelMapper.map(productDTO, Product.class);
 

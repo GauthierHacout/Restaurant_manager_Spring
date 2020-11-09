@@ -1,11 +1,5 @@
 package api.dto;
 
-import core.model.ProductType;
-
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 
 public class ProductDTO {
 
@@ -15,7 +9,7 @@ public class ProductDTO {
 
     private Double price;
 
-    private ProductType productType;
+    private String productType;
     
     private Long restaurantId;
 
@@ -43,11 +37,11 @@ public class ProductDTO {
         this.price = price;
     }
 
-    public ProductType getProductType() {
+    public String getProductType() {
         return productType;
     }
 
-    public void setProductType(ProductType productType) {
+    public void setProductType(String productType) {
         this.productType = productType;
     }
 
