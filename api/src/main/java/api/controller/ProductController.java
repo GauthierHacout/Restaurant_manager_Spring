@@ -1,30 +1,43 @@
 package api.controller;
 
+import api.dto.ProductDTO;
 import core.model.Product;
 import core.service.ProductService;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Validator;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+
+import javax.validation.Valid;
 import java.util.Collections;
 
 @RestController
 @RequestMapping("/product")
 public class ProductController {
 
-    private ProductService productService;
+    private final Validator validator;
+
+    private final ProductService productService;
 
     private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
-    public ProductController(ProductService productService) {
+    public ProductController(Validator validator, ProductService productService) {
+        this.validator = validator;
         this.productService = productService;
     }
 
     @PostMapping("")
-    public ResponseEntity<Product> saveProduct(@RequestBody Product product){
-        Product createdProduct = productService.save(product);
+    public ResponseEntity<Product> saveProduct(@RequestBody ProductDTO productDTO){
+        
+        ModelMapper modelMapper = new ModelMapper();
+        Product createdProduct = modelMapper.map(productDTO, Product.class);
+
+        productService.save(createdProduct);
 
         logger.info("POST - /product - CREATED WITH ID : {}", createdProduct.getId());
         return new ResponseEntity<>(

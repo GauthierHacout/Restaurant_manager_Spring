@@ -5,24 +5,24 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableWebMvc
-@EnableSwagger2WebMvc
-@ComponentScan(basePackages = "api.controller")
-public class ApiConfig extends WebMvcConfigurerAdapter {
+@EnableSwagger2
+@ComponentScan(basePackages = "api")
+public class ApiConfig implements WebMvcConfigurer {
 
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("api.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }
@@ -35,5 +35,4 @@ public class ApiConfig extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
-
 }
