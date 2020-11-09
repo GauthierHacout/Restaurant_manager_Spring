@@ -12,3 +12,5 @@ This is needed for the application to log in the correct file.
 Once the db.properties setup is done you can run Application.main() of the data module in order to populate you database with values. 
 
 For trying the project I recommend using the data module and then using the restaurant "DEMO" to log in.
+
+For API Documentation check http://localhost:8080/api_war_exploded/swagger-ui.html
