@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import javax.validation.Valid;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -42,9 +41,7 @@ public class TableController {
     @GetMapping("table/{id}/start")
     public String startTableService(@PathVariable("id") Long id,  RedirectAttributes redirectAttributes) {
         Table table = tableService.findByIdWithOrders(id);
-        if (table==null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find table");
-        }
+        if (table==null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find table");
 
         try {
             tableService.saveWithNewActiveOrder(table);
@@ -52,6 +49,7 @@ public class TableController {
         } catch(Error e) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, e.getMessage());
         }
+
         redirectAttributes.addAttribute("id", table.getRestaurant().getId());
         return "redirect:/restaurant/{id}/tables";
     }
@@ -59,9 +57,8 @@ public class TableController {
     @GetMapping("table/{id}")
     public String showTable(@PathVariable("id") Long id, ModelMap model) {
         Table table = tableService.findById(id).orElse(null);
-        if (table==null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find table");
-        }
+        if (table==null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find table");
+
 
         Order order = orderService.findActiveOrderWithItemsByTableId(id);
         if (order == null) {
@@ -81,18 +78,23 @@ public class TableController {
     }
 
     @PostMapping("/restaurant/{id}/table")
-    public String createTable(@PathVariable("id") Long restaurantId, @ModelAttribute("table") @Valid Table createdTable) {
-        Restaurant restaurant = restaurantService.findById(restaurantId).orElse(null);
-        if (restaurant==null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find Restaurant");
+    public String createTable(@PathVariable("id") Long restaurantId,
+                              @ModelAttribute("table") @Valid Table createdTable,
+                              BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            logger.warn(bindingResult.toString());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unable to create table with theses properties");
         }
+
+        Restaurant restaurant = restaurantService.findById(restaurantId).orElse(null);
+        if (restaurant==null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find Restaurant");
 
         try {
             tableService.setRestaurantAndSave(restaurant, createdTable);
             logger.info("Restaurant with id : {} has a new table", restaurantId);
         } catch(Exception e) {
             logger.warn(e.getMessage());
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Impossible to create a table with this properties");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Impossible to create a table with theses properties");
         }
 
         return "redirect:/restaurant/{id}/tables";

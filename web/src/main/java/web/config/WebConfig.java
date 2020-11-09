@@ -30,7 +30,6 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
-        //final AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext("core.config");
         final ProductService productService = applicationContext.getBean(ProductService.class);
         ProductFormatter productFormatter = new ProductFormatter(productService);
         registry.addFormatter(productFormatter);
