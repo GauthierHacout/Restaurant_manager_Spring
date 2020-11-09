@@ -20,20 +20,17 @@ import java.util.Collections;
 @RequestMapping("/product")
 public class ProductController {
 
-    private final Validator validator;
-
     private final ProductService productService;
 
     private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
-    public ProductController(Validator validator, ProductService productService) {
-        this.validator = validator;
+    public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
     @PostMapping("")
     public ResponseEntity<Product> saveProduct(@RequestBody ProductDTO productDTO){
-        
+
         ModelMapper modelMapper = new ModelMapper();
         Product createdProduct = modelMapper.map(productDTO, Product.class);
 
