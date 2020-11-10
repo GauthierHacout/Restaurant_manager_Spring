@@ -13,4 +13,6 @@ Once the db.properties setup is done you can run Application.main() of the data 
 
 For trying the project I recommend using the data module and then using the restaurant "DEMO" to log in.
 
+Check http://localhost:8080/web_war_exploded/restaurant to Log in ;) 
+
 For API Documentation check http://localhost:8080/api_war_exploded/swagger-ui.html
